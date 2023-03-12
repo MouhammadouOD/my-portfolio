@@ -1,10 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Project } from "@/typings";
+import { urlFor } from "@/sanity";
 
-type Props = {};
+type Props = {
+  projects: Project[];
+};
 
-function Projects({}: Props) {
-  const projects = [1, 2, 3, 4, 5];
+function Projects({ projects }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -29,12 +32,12 @@ function Projects({}: Props) {
 
       <div
         className="relative w-full flex overflow-x-scroll overflow-y-hidden 
-      snap-x snap-mandatory z-20  scrollbar-thin scrollbar-track-gray-400/20
+      snap-x snap-mandatory z-20 mt-10  scrollbar-thin scrollbar-track-gray-400/20
       scrollbar-thumb-[#F7AB0A]/80 "
       >
         {projects.map((project, i) => (
           <div
-            key={i}
+            key={project._id}
             className="w-screen flex flex-col flex-shrink-0 snap-center p-20 space-y-5
             items-center justify-center md:p-44 h-screen"
           >
@@ -43,7 +46,7 @@ function Projects({}: Props) {
               transition={{ duration: 1.5 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
-              src="https://s3-alpha.figma.com/hub/file/2883706845/8eabcbdc-557a-4961-8719-e6bf2cd5f386-cover.png"
+              src={urlFor(project?.image).url()}
               alt=""
               className="h-48 md:h-60"
             />
@@ -53,16 +56,22 @@ function Projects({}: Props) {
                 <span className="underline decoration-[#F7AB0A]/50 ">
                   Case Study {i + 1} of {projects.length} :{" "}
                 </span>{" "}
-                School Management
+                {project?.title}
               </h4>
 
+              <div className="flex items-center space-x-2 justify-center">
+                {project.technologies.map((technology) => (
+                  <img
+                    key={technology._id}
+                    src={urlFor(technology.image).url()}
+                    className="w-10 h-10"
+                    alt="tech"
+                  />
+                ))}
+              </div>
+
               <p className="text-lg text-center md-text-left">
-                Our school management software features a user-friendly web UI
-                designed to streamline administrative tasks and improve
-                communication between teachers, students, and parents. With
-                intuitive navigation and easy access to important information,
-                the software allows users to manage student data, schedules,
-                assignments, and grades with ease. Additionally, the software
+                {project?.summary}
               </p>
             </div>
           </div>

@@ -10,10 +10,25 @@ import Projects from "@/components/Projects";
 import ContactMe from "@/components/ContactMe";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { GetStaticProps } from "next";
+import { Experience, PageInfo, Project, Skill, Social } from "@/typings";
+import { fetchPageInfos } from "@/utils/fetchPageInfo";
+import { fetchExperiences } from "@/utils/fetchExperiences";
+import { fetchProjects } from "@/utils/fetchProjects";
+import { fetchSkills } from "@/utils/fetchSkills";
+import { fetchSocials } from "@/utils/fetchSocials";
+
+type Props = {
+  pageInfo: PageInfo;
+  experiences: Experience[];
+  projects: Project[];
+  skills: Skill[];
+  socials: Social[];
+}
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export default function Home({ pageInfo, experiences, projects, skills, socials} : Props) {
   return (
     <div
       className="bg-[rgb(36,36,36)] text-white h-screen snap-y snap-mandatory
@@ -21,32 +36,32 @@ export default function Home() {
      scrollbar-thumb-[#F7AB0A]/80 "
     >
       <Head>
-        <title>{`Mod's Portfolio`}</title>
+        <title>{`${pageInfo?.name} - Portfolio`}</title>
       </Head>
 
-      <Header />
+      <Header socials={socials} />
 
       <section id="hero" className="snap-start">
-        <Hero />
+        <Hero pageInfo={pageInfo}/>
       </section>
 
       <section id="about" className="snap-center">
-        <About />
+        <About pageInfo={pageInfo}/>
       </section>
 
       {/* Experience */}
       <section id="experience" className="snap-center">
-        <WorkExperience />
+        <WorkExperience experiences={experiences}/>
       </section>
 
       {/* skills */}
       <section id="skills" className="snap-start">
-        <Skills />
+        <Skills skills={skills}/>
       </section>
 
       {/* Projects */}
       <section id="projects" className="snap-start">
-        <Projects />
+        <Projects projects={projects}/>
       </section>
 
       {/* Contact Me */}
@@ -68,4 +83,26 @@ export default function Home() {
       </Link>
     </div>
   );
+}
+
+export const getStaticProps: GetStaticProps<Props> = async () =>{
+  const pageInfo: PageInfo = await fetchPageInfos();
+  const experiences: Experience[] = await fetchExperiences();
+  const projects: Project[] = await fetchProjects();
+  const skills: Skill[] = await fetchSkills();
+  const socials: Social[] = await fetchSocials();
+
+  return {
+    props:{
+      pageInfo,
+      experiences,
+      projects,
+      skills,
+      socials
+    },
+    // NextJs will attempt to regenerate this page:
+    //- when a request comes in 
+    //- At most once every 10 seconds 
+    revalidate: 10, 
+  }
 }
