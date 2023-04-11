@@ -14,10 +14,10 @@ function WorkExperience({ experiences }: Props) {
             transition={{ duration: 1.2 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
-            className='h-screen flex relative overflow-hidden flex-col text-left 
+            className='h-screen flex relative overflow-scroll flex-col text-left 
     md:flex-row max-w-full px-10 md:pt-[350px] xl:pt-40 justify-evenly mx-auto items-center'>
             <h3 className='absolute top-24 uppercase tracking-[20px]
-         text-gray-500 text-2xl '>
+         text-gray-500 text-lg lg:text-2xl '>
                 Experience
             </h3>
 
@@ -25,7 +25,7 @@ function WorkExperience({ experiences }: Props) {
             scrollbar-thin scrollbar-track-gray-400/20
             scrollbar-thumb-[#F7AB0A]/80'>
                 {/* ExperienceCard */}
-                {experiences.map((experience : Experience) =>(
+                {experiences.sort((a, b)=> b.dateEnded - a.dateEnded).map((experience : Experience) =>(
                     <ExperienceCard
                     key={experience._id}
                     experience={experience}
