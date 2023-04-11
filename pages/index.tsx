@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { GetStaticProps } from "next";
 import { Experience, PageInfo, Project, Skill, Social } from "@/typings";
-import { fetchPageInfo } from "@/utils/fetchPageInfo";
+import { fetchPageInfos } from "@/utils/fetchPageInfo";
 import { fetchExperiences } from "@/utils/fetchExperiences";
 import { fetchProjects } from "@/utils/fetchProjects";
 import { fetchSkills } from "@/utils/fetchSkills";
@@ -89,7 +89,7 @@ export default function Home({ pageInfo, experiences, projects, skills, socials}
 
 export async function getStaticProps() {
   
-  const pageInfo: PageInfo = await fetchPageInfo();
+  const pageInfo: PageInfo = await fetchPageInfos();
   const experiences: Experience[] = await fetchExperiences();
   const projects: Project[] = await fetchProjects();
   const skills: Skill[] = await fetchSkills();
