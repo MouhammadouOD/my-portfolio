@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Skill } from "@/typings";
 import { urlFor } from "@/sanity";
@@ -12,7 +12,7 @@ function Skill({ skill, directionleft }: Props) {
   return (
     <div className="group relative flex cursor-pointer ">
       <motion.img
-        initial={{ x: directionleft ? -200 : 200, opacity: 0 }}
+        initial={{ x: directionleft ? -100 : 100, opacity: 0 }}
         transition={{ duration: 1 }}
         whileInView={{ x: 0, opacity: 1 }}
         viewport={{once: true}}

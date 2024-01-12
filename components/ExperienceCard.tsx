@@ -1,6 +1,7 @@
 import { urlFor } from "@/sanity";
 import { Experience } from "@/typings";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import React from "react";
 
 type Props = {
@@ -11,7 +12,7 @@ function ExperienceCard({ experience }: Props) {
   return (
     <article
       className="flex flex-col rounded-lg items-center space-y-7 flex-shrink-0
-        w-[500px] md:w-[600px] xl:w-[900px] snap-center bg-[#292929] p-10 hover:opacity-100 opacity-40
+        w-[380px] md:w-[600px] xl:w-[900px] snap-center bg-[#292929] p-10 hover:opacity-100 opacity-40
         cursor-pointer transition-opacity duration-200 overflow-y-scroll"
     >
       <motion.img
@@ -30,11 +31,13 @@ function ExperienceCard({ experience }: Props) {
         <p className="text-lg lg:text-xl mt-1 font-bold">{experience.company}</p>
         <div className="flex space-x-2 my-2">
           {experience.technologies.map((technology) => (
-            <img
+            <Image
               key={technology._id}
               className="w-10 h-10 rounded-full"
               src={urlFor(technology.image).url()}
               alt=""
+              width={800}
+              height={800}
             />
           ))}
         </div>
@@ -44,14 +47,12 @@ function ExperienceCard({ experience }: Props) {
             ? "Present"
             : new Date(experience.dateEnded).toDateString()}
         </p>
-        <ul className="list-disc space-y-4 ml-5 pr-5 text-sm lg:text-lg h-96 overflow-y-scroll scrollbar-thin scrollbar-track-black
+        <ul className="list-disc space-y-4 ml-5 pr-5 text-sm lg:text-lg max-h-96 overflow-y-scroll scrollbar-thin scrollbar-track-black
      scrollbar-thumb-[#F7AB0A]/80">
             {experience?.points?.map((point, i) =>(
                 <li key={i}>{point}</li>
             ))}
         </ul>
-        <br />
-        <br />
         
       </div>
     </article>
